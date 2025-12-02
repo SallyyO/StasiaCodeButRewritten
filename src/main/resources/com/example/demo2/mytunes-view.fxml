@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.demo2.gui.MyTunesController">
+    <top>
+        <ToolBar>
+            <Button text="Play" onAction="#onPlay"/>
+            <Button text="Pause" onAction="#onPause"/>
+            <Button text="Stop" onAction="#onStop"/>
+            <Separator/>
+            <Label text="Status:"/>
+            <Label fx:id="statusLabel" text="Idle"/>
+        </ToolBar>
+    </top>
+    <center>
+        <BorderPane>
+            <left>
+                <VBox spacing="6.0">
+                    <padding>
+                        <Insets top="10" right="10" bottom="10" left="10"/>
+                    </padding>
+                    <Label text="Playlists">
+                        <font><Font size="14"/></font>
+                    </Label>
+                    <ListView fx:id="playlistList" prefWidth="220"/>
+                    <HBox spacing="6.0">
+                        <Button text="New..." onAction="#onNewPlaylist"/>
+                        <Button text="Edit..." onAction="#onEditPlaylist"/>
+                        <Button text="Delete" onAction="#onDeletePlaylist"/>
+                    </HBox>
+                </VBox>
+            </left>
+            <center>
+                <VBox spacing="6.0">
+                    <padding>
+                        <Insets top="10" right="10" bottom="10" left="10"/>
+                    </padding>
+                    <Label text="Songs in playlist">
+                        <font><Font size="14"/></font>
+                    </Label>
+                    <ListView fx:id="playlistSongsList"/>
+                    <HBox spacing="6.0">
+                        <Button text="⬆" onAction="#onMoveUp"/>
+                        <Button text="⬇" onAction="#onMoveDown"/>
+                        <Button text="Delete" onAction="#onRemoveFromPlaylist"/>
+                    </HBox>
+                </VBox>
+            </center>
+            <right>
+                <VBox spacing="6.0" prefWidth="480">
+                    <padding>
+                        <Insets top="10" right="10" bottom="10" left="10"/>
+                    </padding>
+                    <Label text="All Songs">
+                        <font><Font size="14"/></font>
+                    </Label>
+                    <HBox spacing="6.0">
+                        <TextField fx:id="filterField" promptText="Filter by title or artist" HBox.hgrow="ALWAYS"/>
+                        <Button fx:id="filterButton" text="Filter" onAction="#onFilterToggle"/>
+                    </HBox>
+                    <TableView fx:id="songTable" prefHeight="380">
+                        <columns>
+                            <TableColumn fx:id="titleCol" text="Title" prefWidth="180"/>
+                            <TableColumn fx:id="artistCol" text="Artist" prefWidth="140"/>
+                            <TableColumn fx:id="durationCol" text="Duration" prefWidth="90"/>
+                        </columns>
+                    </TableView>
+                    <HBox spacing="6.0">
+                        <Button text="New..." onAction="#onNewSong"/>
+                        <Button text="Edit..." onAction="#onEditSong"/>
+                        <Button text="Delete" onAction="#onDeleteSong"/>
+                        <Button text="⬅ Add to Playlist" onAction="#onAddToPlaylist"/>
+                    </HBox>
+                </VBox>
+            </right>
+        </BorderPane>
+    </center>
+</BorderPane>

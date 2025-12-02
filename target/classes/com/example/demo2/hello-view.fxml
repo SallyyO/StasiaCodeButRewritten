@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="456.0" prefWidth="465.0" spacing="20.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.12" fx:controller="com.example.demo2.HelloController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+
+    <Label fx:id="welcomeText" text="My Tunes" textAlignment="CENTER">
+      <font>
+         <Font name="Diwan Thuluth Regular" size="86.0" />
+      </font>
+      <textFill>
+         <RadialGradient centerX="0.5166204986149584" centerY="0.5095011876484561" radius="0.5">
+            <stops>
+               <Stop>
+                  <color>
+                     <Color red="0.6315789222717285" green="0.19298245012760162" blue="0.5292397737503052" />
+                  </color>
+               </Stop>
+               <Stop offset="1.0">
+                  <color>
+                     <Color red="0.7743664979934692" green="0.7376949191093445" blue="0.9210526347160339" />
+                  </color>
+               </Stop>
+            </stops>
+         </RadialGradient>
+      </textFill></Label>
+    <Button onAction="#onHelloButtonClick" text="Play some tunes!">
+      <font>
+         <Font name="Damascus Regular" size="13.0" />
+      </font>
+      <textFill>
+         <LinearGradient endX="1.0" endY="1.0" startX="1.0" startY="1.0">
+            <stops>
+               <Stop>
+                  <color>
+                     <Color red="0.6315789222717285" green="0.19298245012760162" blue="0.5292397737503052" />
+                  </color>
+               </Stop>
+               <Stop offset="1.0">
+                  <color>
+                     <Color red="0.7743664979934692" green="0.7376949191093445" blue="0.9210526347160339" />
+                  </color>
+               </Stop>
+            </stops>
+         </LinearGradient>
+      </textFill></Button>
+   <cursor>
+      <Cursor fx:constant="NW_RESIZE" />
+   </cursor>
+</VBox>

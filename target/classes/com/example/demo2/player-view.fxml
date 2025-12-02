@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.demo2.PlayerController">
+    <top>
+        <ToolBar>
+            <Button text="Choose Songs" onAction="#onChooseSongs"/>
+            <Separator/>
+            <Button text="Play" onAction="#onPlay"/>
+            <Button text="Pause" onAction="#onPause"/>
+            <Button text="Stop" onAction="#onStop"/>
+            <Separator/>
+            <Label text="Status:"/>
+            <Label fx:id="statusLabel" text="Idle"/>
+        </ToolBar>
+    </top>
+    <center>
+        <VBox spacing="8.0" fillWidth="true">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <Label text="Selected songs">
+                <font>
+                    <Font size="14" />
+                </font>
+            </Label>
+            <ListView fx:id="songsList" />
+        </VBox>
+    </center>
+</BorderPane>
