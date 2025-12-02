@@ -59,23 +59,9 @@ public class MyTunesController {
 
     @FXML
     private void initialize() {
-        setupListViews();
-        setupTableColumns();
-        setupEventHandlers();
-
-
-        // Made new methods for this to keep code cleaner
-        /*
-        titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
-        artistCol.setCellValueFactory(new PropertyValueFactory<>("artist"));
-        durationCol.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().getDurationDisplay()));
-
-        songTable.setItems(songs);
-
-        playlistList.setItems(playlists);
-        playlistSongsList.setItems(songsInSelectedPlaylist);
-
-         */
+        setupListViews(); //New method1
+        setupTableColumns(); //New method2
+        setupEventHandlers(); //New method 3
 
         // Selection changes
         playlistList.getSelectionModel().selectedItemProperty().addListener((obs, old, sel) -> {
@@ -85,28 +71,6 @@ public class MyTunesController {
                 showError("Failed to load playlist songs", e);
             }
         });
-
-        //Also made new methods for these 2
-
-        /* songTable.setRowFactory(tv -> {
-            TableRow<Song> row = new TableRow<>();
-            row.setOnMouseClicked(event -> {
-                if (event.getClickCount() == 2 && !row.isEmpty()) {
-                    playFromTable(row.getItem());
-                }
-            });
-            return row;
-        });
-
-        // Double-click song in playlist to play
-        playlistSongsList.setOnMouseClicked(event -> {
-            if (event.getClickCount() == 2) {
-                Song s = playlistSongsList.getSelectionModel().getSelectedItem();
-                if (s != null) playFromPlaylist(s);
-            }
-        });
-
-         */
 
         // Initial load
         reloadAll();
@@ -155,6 +119,7 @@ public class MyTunesController {
         }
     }
 
+    //Third new method, here for figuring out what song to play 
     private void setupEventHandlers() {
         // Double-click song in table to play
         songTable.setRowFactory(tv -> {
