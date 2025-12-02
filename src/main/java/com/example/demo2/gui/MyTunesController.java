@@ -119,7 +119,7 @@ public class MyTunesController {
         }
     }
 
-    //Third new method, here for figuring out what song to play 
+    //Third new method, here for figuring out what song to play
     private void setupEventHandlers() {
         // Double-click song in table to play
         songTable.setRowFactory(tv -> {
