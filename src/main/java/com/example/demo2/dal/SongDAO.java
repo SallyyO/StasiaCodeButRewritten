@@ -11,19 +11,49 @@ import java.util.List;
  */
 public class SongDAO {
 
+    // Gets all songs - here they're ordered by title
     public List<Song> findAll() throws SQLException {
-        String sql = "SELECT id, title, artist, duration_seconds, file_path FROM songs ORDER BY title COLLATE NOCASE";
+       List<Song> songs = new ArrayList<>();
+
+       //Try-with-resources used here
         try (Connection c = DBManager.getConnection();
-             PreparedStatement ps = c.prepareStatement(sql);
+             PreparedStatement ps = c.prepareStatement(
+             "SELECT id, title, artist, duration_seconds, file_path FROM songs ORDER BY title COLLATE NOCASE"
+             );
              ResultSet rs = ps.executeQuery()) {
-            List<Song> list = new ArrayList<>();
-            while (rs.next()) list.add(map(rs));
-            return list;
+
+            //List<Song> list = new ArrayList<>();
+            while (rs.next()) {
+                songs.add(mapToSong(rs));
+            }
         }
+        return songs;
     }
 
     public List<Song> search(String query) throws SQLException {
-        String like = "%" + query + "%";
+       if (query == null || query.isBlank()) {
+           return findAll();
+       }
+
+       List<Song> songs = new ArrayList<>();
+       String searchTerm = "%" + query.trim() + "%";
+
+       try (Connection c = DBManager.getConnection();
+            PreparedStatement ps = c.prepareStatement(
+                    "SELECT id, title, artist, duration_seconds, file_path FROM songs" +
+                            "WHERE title LIKE ? OR artist LIKE ? ORDER BY title COLLATE NOCASE")) {
+           ps.setString(1, searchTerm);
+           ps.setString(2, searchTerm);
+
+           try(ResultSet rs = ps.executeQuery()) {
+               while (rs.next()) {
+                   songs.add(mapToSong(rs));
+               }
+           }
+       }
+       return songs;
+
+        /* String like = "%" + query + "%";
         String sql = "SELECT id, title, artist, duration_seconds, file_path FROM songs " +
                 "WHERE title LIKE ? OR artist LIKE ? ORDER BY title COLLATE NOCASE";
         try (Connection c = DBManager.getConnection();
@@ -32,14 +62,34 @@ public class SongDAO {
             ps.setString(2, like);
             try (ResultSet rs = ps.executeQuery()) {
                 List<Song> list = new ArrayList<>();
-                while (rs.next()) list.add(map(rs));
+                while (rs.next()) list.add(mapToSong(rs));
                 return list;
             }
         }
+         */
     }
 
+    //Inserts a new song into the database
     public Song insert(Song s) throws SQLException {
-        String sql = "INSERT INTO songs(title, artist, duration_seconds, file_path) VALUES(?,?,?,?)";
+       try (Connection c = DBManager.getConnection();
+            PreparedStatement ps = c.prepareStatement(
+                    "INSERT INTO songs(title, artist, duration_seconds,file_path) VALUES (?, ?, ?, ?)",
+                    Statement.RETURN_GENERATED_KEYS)) {
+           ps.setString(1, s.getTitle());
+           ps.setString(2, s.getArtist());
+           ps.setInt(3, s.getDurationSeconds());
+           ps.setString(4, s.getFilePath());
+           ps.executeUpdate();
+
+           //Get the new Id
+           try (ResultSet keys = ps.getGeneratedKeys()) {
+               if (keys.next()) {
+                   s.setId(keys.getInt(1));
+               }
+           }
+       }
+       return s;
+        /* String sql = "INSERT INTO songs(title, artist, duration_seconds, file_path) VALUES(?,?,?,?)";
         try (Connection c = DBManager.getConnection();
              PreparedStatement ps = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, s.getTitle());
@@ -52,12 +102,14 @@ public class SongDAO {
             }
             return s;
         }
+         */
     }
 
+    //Update a song
     public void update(Song s) throws SQLException {
-        String sql = "UPDATE songs SET title=?, artist=?, duration_seconds=?, file_path=? WHERE id=?";
         try (Connection c = DBManager.getConnection();
-             PreparedStatement ps = c.prepareStatement(sql)) {
+             PreparedStatement ps = c.prepareStatement(
+                     "UPDATE songs SET title=?, artist=?, duration_seconds=?, file_path=? WHERE id=?")) {
             ps.setString(1, s.getTitle());
             ps.setString(2, s.getArtist());
             ps.setInt(3, s.getDurationSeconds());
@@ -67,6 +119,7 @@ public class SongDAO {
         }
     }
 
+    // Lets user delete a song by its ID
     public boolean delete(int id) throws SQLException {
         String sql = "DELETE FROM songs WHERE id=?";
         try (Connection c = DBManager.getConnection();
@@ -76,7 +129,8 @@ public class SongDAO {
         }
     }
 
-    private static Song map(ResultSet rs) throws SQLException {
+    // Used to map a ResultSet row to a Song
+    private static Song mapToSong(ResultSet rs) throws SQLException {
         return new Song(
                 rs.getInt("id"),
                 rs.getString("title"),
