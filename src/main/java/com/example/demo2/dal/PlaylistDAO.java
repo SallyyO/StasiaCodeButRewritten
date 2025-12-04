@@ -9,6 +9,7 @@ import java.util.List;
 
 /**
  * DAO for playlists and their song ordering.
+ * !! We should find out if we want try-with-resources or more simple stuff !!
  */
 public class PlaylistDAO {
 
