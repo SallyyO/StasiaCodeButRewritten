@@ -15,33 +15,36 @@
     </properties>
 
     <dependencies>
-        <!--Added mockito and jUnit 4 testing -->
+        <!--Added mockito for testing idk if i'll use it yet lol-->
         <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
         <version>5.11.0</version>
         <scope>test</scope>
         </dependency>
-        <!--Needed the inline one to be able to test with final classes etc -->
+        <!--Needed the inline one to be able to test with final classes idk if i'll use it yet lol-->
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-inline</artifactId>
             <version>5.2.0</version>
             <scope>test</scope>
         </dependency>
-        <!--a mix of Mockito and jUnit in one -->
+        <!--a mix of Mockito and jUnit in one idk if i'll use it yet lol -->
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-junit-jupiter</artifactId>
             <version>5.11.0</version>
             <scope>test</scope>
         </dependency>
+        <!--Added jbehave to try bdd testing -->
         <dependency>
             <groupId>org.jbehave</groupId>
             <artifactId>jbehave-core</artifactId>
             <version>4.1</version>
             <scope>test</scope>
         </dependency>
+
+        <!--Added jUnit for testing -->
         <dependency>
         <groupId>org.junit.jupiter</groupId>
         <artifactId>junit-jupiter</artifactId>

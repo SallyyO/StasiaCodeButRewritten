@@ -15,8 +15,9 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+//Mby just delete this one, not rly used. I'll smth else without godamnnnnn mockito
 @ExtendWith(MockitoExtension.class)
-public class PlaylistServiceTest {
+public class PlaylistServiceTest1 {
 
     private PlaylistDAO mockDAO;
     private PlaylistService playlistService;

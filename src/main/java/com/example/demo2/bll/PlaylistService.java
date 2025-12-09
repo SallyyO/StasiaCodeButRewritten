@@ -8,19 +8,19 @@ import java.sql.SQLException;
 import java.util.List;
 
 /**
- * Business logic for playlists and their songs ordering.
+ * Business logic for playlists and putting songs in order.
  */
 public class PlaylistService {
     private PlaylistDAO playlistDAO = new PlaylistDAO(); //WAS FINAL BEFORE, CHANGE BACK IF NEEDED
 
     //Added constructors to make testing easier/possible without having to touch the DB
-    // for prod
+    // Can be deleted, not used yet
     public PlaylistService() {
 
         this.playlistDAO = new PlaylistDAO();
     }
 
-    //One for testing if needed (dependency injection)
+    //One for testing if needed (dependency injection) Not used rn, can be deleted
     public PlaylistService (PlaylistDAO mockDAO){
         this.playlistDAO = mockDAO;
     }

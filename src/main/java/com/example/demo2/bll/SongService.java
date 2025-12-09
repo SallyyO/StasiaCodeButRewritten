@@ -25,35 +25,36 @@ public class SongService {
     }
 
     //Add a new song
-    public Song create(Song s) throws SQLException {
+    public Song create(Song song) throws SQLException {
+
         //We would like to make sure that we get all info
-        if (s.getTitle() == null || s.getTitle().trim().isEmpty()){
+        if (song.getTitle() == null || song.getTitle().trim().isEmpty()){
             throw new SQLException("Please enter a title");
         }
-        if (s.getArtist() == null || s.getArtist().trim().isEmpty()){
+        if (song.getArtist() == null || song.getArtist().trim().isEmpty()){
             throw new SQLException("Please enter the song's artist");
         }
-        if(s.getFilePath() == null || s.getFilePath().trim().isEmpty()){
+        if(song.getFilePath() == null || song.getFilePath().trim().isEmpty()){
             throw new SQLException("Please make sure the file path is correct");
         }
 
         //Then make sure the actual file exists (mby? idk if we need this)
-        File file = new File(s.getFilePath());
+        File file = new File(song.getFilePath());
         if (!file.exists()){
-            throw new SQLException("File does not exist" + s.getFilePath());
+            throw new SQLException("File does not exist" + song.getFilePath());
         }
 
-        return songDAO.insert(s);
+        return songDAO.insert(song);
     }
 
     //Update the song
     public void update(Song s) throws SQLException {
         songDAO.update(s);
-        //Maybe put in some validation here like the one above for creating the song
     }
 
     //Delete the song
     public boolean delete(int songId) throws SQLException {
         return songDAO.delete(songId);
     }
+
 }

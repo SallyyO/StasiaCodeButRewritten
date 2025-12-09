@@ -12,6 +12,7 @@ public class Song {
     private int durationSeconds; // 0 if unknown
     private String filePath; // absolute path or URL
 
+
     public Song(Integer id, String title, String artist, int durationSeconds, String filePath) {
         this.id = id;
         this.title = title;
