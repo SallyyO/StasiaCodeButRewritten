@@ -1,12 +1,14 @@
 package jBehaveBDD;
 
 import com.example.demo2.bll.SongService;
+import com.example.demo2.dal.TestDBManager;
 import com.example.demo2.entities.Song;
 import org.jbehave.core.annotations.*;
 import org.jbehave.core.model.ExamplesTable;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -20,30 +22,36 @@ public class SongManagementSteps {
     private Song currentSong;
     private List<Song> searchResults;
     private Exception lastException;
-    private File tempFile;
+    private File tempTestFile;
 
     @BeforeScenario
-    public void setUp() throws IOException {
+    public void setUp() throws SQLException, IOException {
         songService = new SongService();
         currentSong = null;
         searchResults = null;
         lastException = null;
-        tempFile = File.createTempFile("test", ".mp3");
-        tempFile.deleteOnExit();
+        TestDBManager.cleanDatabase();
+        createTempTestFile();
 
     }
 
     @AfterScenario
     public void tearDown() {
-        if (tempFile != null && tempFile.exists()) {
-            tempFile.delete();
+        if (tempTestFile != null && tempTestFile.exists()) {
+            tempTestFile.delete();
         }
     }
+
+    private void createTempTestFile() throws IOException {
+        tempTestFile =  File.createTempFile("test_audio", ".mp3");
+        tempTestFile.deleteOnExit();
+    }
+
     @Given("We have a valid audio file at \"$filePath\"")
     public void givenValidAudioFile (String filePath){
         //we use the tempfile for testing this
-        assertNotNull(tempFile);
-        assertTrue(tempFile.exists());
+        assertNotNull(tempTestFile);
+        assertTrue(tempTestFile.exists());
     }
 
     @Given("There are songs in the library: $songsTable")
@@ -62,20 +70,20 @@ public class SongManagementSteps {
 
     @Given("I have a song called \"$title\" by \"$artist\"")
     public void givenSongByArtist(String title, String artist) throws Exception {
-        currentSong = new Song(title, artist, 123, tempFile.getAbsolutePath());
+        currentSong = new Song(title, artist, 123, tempTestFile.getAbsolutePath());
         currentSong =  songService.create(currentSong);
     }
 
     @Given("I have a song with the title \"$title\" in my library")
     public void givenSongInLibrary(String title) throws Exception {
-        currentSong = new Song(title, "Artist",  123, tempFile.getAbsolutePath());
+        currentSong = new Song(title, "Artist",  123, tempTestFile.getAbsolutePath());
         currentSong =  songService.create(currentSong);
     }
 
     @When("I create a song with the title\"$title\" and artist \"$artist\"")
     public void whenCreateSong(String title, String artist) throws Exception {
         try {
-            currentSong = new Song(title, artist, 123, tempFile.getAbsolutePath());
+            currentSong = new Song(title, artist, 123, tempTestFile.getAbsolutePath());
             currentSong =  songService.create(currentSong);
         } catch (Exception e) {
             lastException = e;
