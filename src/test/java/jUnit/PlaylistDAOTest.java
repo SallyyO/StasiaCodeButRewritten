@@ -3,6 +3,7 @@ package jUnit;
 import com.example.demo2.dal.DBManager;
 import com.example.demo2.dal.PlaylistDAO;
 import com.example.demo2.dal.SongDAO;
+import com.example.demo2.dal.TestDBManager;
 import com.example.demo2.entities.Playlist;
 import org.junit.Test;
 import org.junit.jupiter.api.*;
@@ -32,7 +33,7 @@ public class PlaylistDAOTest {
 
     @BeforeEach
     public void setupTest()  throws SQLException {
-        cleanDatabase();
+        TestDBManager.cleanDatabase();
     }
 
     private void cleanDatabase() throws SQLException {

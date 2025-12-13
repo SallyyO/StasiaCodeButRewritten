@@ -2,6 +2,7 @@ package jUnit;
 
 import com.example.demo2.dal.DBManager;
 import com.example.demo2.dal.SongDAO;
+import com.example.demo2.dal.TestDBManager;
 import com.example.demo2.entities.Song;
 import org.junit.jupiter.api.*;
 
@@ -19,17 +20,17 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class SongDAOTest {
-    //IT ACTUALLY WORKS YAYYYYY
+    //IT ACTUALLY WORKS YAYYYYY: update, nvm
     private static SongDAO songDAO;
 
     @BeforeAll
     public static void setUpClass() throws SQLException {
     songDAO = new SongDAO();
-    cleanDatabase();
+        TestDBManager.cleanDatabase();
     }
     @BeforeEach
     public void setUp() throws SQLException {
-        cleanDatabase();
+        TestDBManager.cleanDatabase();
     }
 
     private static void cleanDatabase() throws SQLException {
