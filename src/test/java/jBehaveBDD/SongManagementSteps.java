@@ -83,7 +83,7 @@ public class SongManagementSteps {
     }
 
     @When("I search for \"$query\"")
-    public void whenSearchingFor(String query) {
+    public void whenSearchingFor(String query) throws Exception {
         searchResults = songService.search(query);
     }
 
