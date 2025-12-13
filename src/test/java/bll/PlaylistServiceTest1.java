@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 //We never rly got this one to work and instead worked on other ones for some reason.
-// Kept it to hopefully hopefully learn from it
+// Kept it to hopefully learn from it
 @ExtendWith(MockitoExtension.class)
 public class PlaylistServiceTest1 {
 

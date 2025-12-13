@@ -21,9 +21,9 @@ public class PlaylistService {
     }
 
     //One for testing if needed (dependency injection) Isn't working yet :D
-    public PlaylistService (PlaylistDAO mockDAO){
+    public PlaylistService (PlaylistDAO mockPlayDAO){
 
-        this.playlistDAO = mockDAO;
+        this.playlistDAO = mockPlayDAO;
     }
 
     //Gets all playlists

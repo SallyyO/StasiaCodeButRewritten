@@ -7,11 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * DAO for CRUD operations on songs table.
+ * DAO for the songs
  */
 public class SongDAO {
 
-    // Gets all songs - here they're ordered by title
+    // Most stuff in here could've been done with try-with-resources.
+    // That probably would've been better - maybe do that next time
+
+    // Gets all songs - here it's ordered by title
     public List<Song> findAll() throws SQLException {
        List<Song> songs = new ArrayList<>();
 
@@ -56,7 +59,7 @@ public class SongDAO {
 
       Connection connection = DBManager.getConnection();
       PreparedStatement ps = connection.prepareStatement(
-              "SELECT id, title, artist, duration_seconds, file_path FROM songs" +
+              "SELECT id, title, artist, duration_seconds, file_path FROM songs " +
                       "WHERE title LIKE ? OR artist LIKE ? ORDER BY title COLLATE NOCASE"
       );
 

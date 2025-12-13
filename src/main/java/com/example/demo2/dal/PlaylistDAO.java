@@ -9,13 +9,13 @@ import java.util.List;
 
 /**
  * DAO for playlists and their song ordering.
- * !! We should find out if we want try-with-resources or more simple stuff !!
  */
 public class PlaylistDAO {
+    // Most stuff in here could've been done with try-with-resources.
+    // That probably would've been better - maybe do that next time
 
     //gets all playlists
     public List<Playlist> findAll() throws SQLException {
-       //Think this might look a bit more organized?
         List<Playlist> playlists = new ArrayList<>();
 
        Connection connection = DBManager.getConnection();
@@ -31,19 +31,10 @@ public class PlaylistDAO {
        statement.close();
        connection.close();
        return playlists;
-        /* String sql = "SELECT id, name FROM playlists ORDER BY name COLLATE NOCASE";
-        try (Connection c = DBManager.getConnection();
-             PreparedStatement ps = c.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
-            List<Playlist> list = new ArrayList<>();
-            while (rs.next()) list.add(new Playlist(rs.getInt("id"), rs.getString("name")));
-            return list;
-        } */
     }
 
     //Add a new playlist
     public Playlist insert(Playlist p) throws SQLException {
-       // Maybe looks better?
         Connection connection = DBManager.getConnection();
        PreparedStatement preparedStatement = connection.prepareStatement(
                "INSERT INTO playlists (name) VALUES (?)",
@@ -63,18 +54,6 @@ public class PlaylistDAO {
         preparedStatement.close();
         connection.close();
         return p;
-
-        /* String sql = "INSERT INTO playlists(name) VALUES(?)";
-        try (Connection c = DBManager.getConnection();
-             PreparedStatement ps = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            ps.setString(1, p.getName());
-            ps.executeUpdate();
-            try (ResultSet keys = ps.getGeneratedKeys()) {
-                if (keys.next()) p.setId(keys.getInt(1));
-            }
-            return p;
-        }
-         */
     }
 
     //Update a playlist's name
@@ -89,14 +68,6 @@ public class PlaylistDAO {
 
         ps.close();
         connection.close();
-        /* String sql = "UPDATE playlists SET name=? WHERE id=?";
-        try (Connection c = DBManager.getConnection();
-             PreparedStatement ps = c.prepareStatement(sql)) {
-            ps.setString(1, p.getName());
-            ps.setInt(2, p.getId());
-            ps.executeUpdate();
-        }
-         */
     }
 
     //Delete a playlist
@@ -110,13 +81,6 @@ public class PlaylistDAO {
       ps.close();
       connection.close();
       return deleted > 0;
-       /* String sql = "DELETE FROM playlists WHERE id=?";
-        try (Connection c = DBManager.getConnection();
-             PreparedStatement ps = c.prepareStatement(sql)) {
-            ps.setInt(1, playlistId);
-            return ps.executeUpdate() > 0;
-        }
-        */
     }
 
     // Get all songs from a playlist
@@ -148,62 +112,10 @@ public class PlaylistDAO {
        ps.close();
        connection.close();
        return songs;
-
-
-        /* String sql = "SELECT s.id, s.title, s.artist, s.duration_seconds, s.file_path " +
-                "FROM playlist_songs ps JOIN songs s ON ps.song_id = s.id " +
-                "WHERE ps.playlist_id=? ORDER BY ps.position";
-        try (Connection c = DBManager.getConnection();
-             PreparedStatement ps = c.prepareStatement(sql)) {
-            ps.setInt(1, playlistId);
-            try (ResultSet rs = ps.executeQuery()) {
-                List<Song> list = new ArrayList<>();
-                while (rs.next()) {
-                    list.add(new Song(
-                            rs.getInt("id"),
-                            rs.getString("title"),
-                            rs.getString("artist"),
-                            rs.getInt("duration_seconds"),
-                            rs.getString("file_path")));
-                }
-                return list;
-            }
-        }
-        */
     }
 
     // Adds a song to the END of a playlist
     public void addSongToEnd(int playlistId, int songId) throws SQLException {
-      /* Connection connection = DBManager.getConnection();
-
-      //Helps finding what position to add the new song at
-        PreparedStatement maxPS = connection.prepareStatement(
-                "SELECT COALESCE(MAX(position), -1) as max_pos FROM playlist_songs WHERE playlist_id"
-        );
-        maxPS.setInt( 1, playlistId); // !! Figure out what's wrong with this one !!
-        ResultSet resultSet = maxPS.executeQuery();
-
-        int nextPosition = 0;
-        if (resultSet.next()) {
-            nextPosition = resultSet.getInt("max_pos") + 1;
-        }
-        resultSet.close();
-        maxPS.close();
-
-        //Now add the song
-        PreparedStatement ps = connection.prepareStatement(
-                "INSERT INTO playlist_songs (playlist_id, position, song_id) VALUES (?, ?, ?)"
-        );
-
-        ps.setInt(1, playlistId);
-        ps.setInt(2, nextPosition);
-        ps.setInt(3, songId);
-        ps.executeUpdate();
-        ps.close();
-
-        connection.close();
-
-       */
         String maxSql = "SELECT COALESCE(MAX(position), -1) FROM playlist_songs WHERE playlist_id=?";
         try (Connection c = DBManager.getConnection();
              PreparedStatement maxPs = c.prepareStatement(maxSql)) {
@@ -254,27 +166,6 @@ public class PlaylistDAO {
         ps2.close();
 
         connection.close();
-        /* try (Connection c = DBManager.getConnection()) {
-            c.setAutoCommit(false);
-            try (PreparedStatement del = c.prepareStatement(
-                    "DELETE FROM playlist_songs WHERE playlist_id=? AND position=?");
-                 PreparedStatement shift = c.prepareStatement(
-                         "UPDATE playlist_songs SET position = position - 1 WHERE playlist_id=? AND position > ?")) {
-                del.setInt(1, playlistId);
-                del.setInt(2, position);
-                del.executeUpdate();
-
-                shift.setInt(1, playlistId);
-                shift.setInt(2, position);
-                shift.executeUpdate();
-                c.commit();
-            } catch (SQLException ex) {
-                c.rollback();
-                throw ex;
-            } finally {
-                c.setAutoCommit(true);
-            }
-        } */
     }
 
     // Lets the user move songs
@@ -290,7 +181,7 @@ public class PlaylistDAO {
                     temp.setInt(2, fromPos);
                     temp.executeUpdate();
                 }
-                // We shift the other songs
+                // Moving one song will then ofc shift the other songs
                 if (fromPos < toPos) {
                     // User wants to move song down, so we shift the other songs up
                     try (PreparedStatement shiftDown = c.prepareStatement(
