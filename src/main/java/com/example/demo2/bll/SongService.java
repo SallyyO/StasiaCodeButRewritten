@@ -11,7 +11,15 @@ import java.util.List;
  * Business logic for songs.
  */
 public class SongService {
-    private final SongDAO songDAO = new SongDAO();
+    private SongDAO songDAO = new SongDAO(); //Was also final before, could probably be changed back if needed
+
+    public SongService() {
+        this.songDAO = new SongDAO();
+    }
+
+    public SongService(SongDAO sMockDAO){
+        this.songDAO = sMockDAO;
+    }
 
     //Gets all songs
     public List<Song> getAll() throws SQLException {
@@ -20,7 +28,8 @@ public class SongService {
 
     //Allows the user to search for songs
     public List<Song> search(String query) throws SQLException {
-        if (query == null || query.isBlank()) return getAll();
+        if (query == null || query.isBlank())
+            return getAll();
         return songDAO.search(query);
     }
 
@@ -38,7 +47,7 @@ public class SongService {
             throw new SQLException("Please make sure the file path is correct");
         }
 
-        //Then make sure the actual file exists (mby? idk if we need this)
+        //Then make sure the actual file exists
         File file = new File(song.getFilePath());
         if (!file.exists()){
             throw new SQLException("File does not exist" + song.getFilePath());
@@ -48,8 +57,8 @@ public class SongService {
     }
 
     //Update the song
-    public void update(Song s) throws SQLException {
-        songDAO.update(s);
+    public void update(Song song) throws SQLException {
+        songDAO.update(song);
     }
 
     //Delete the song

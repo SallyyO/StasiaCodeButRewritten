@@ -15,7 +15,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-//Mby just delete this one, not rly used. I'll smth else without godamnnnnn mockito
+//We never rly got this one to work and instead worked on other ones for some reason.
+// Kept it to hopefully hopefully learn from it
 @ExtendWith(MockitoExtension.class)
 public class PlaylistServiceTest1 {
 

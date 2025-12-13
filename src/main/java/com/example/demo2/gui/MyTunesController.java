@@ -61,7 +61,7 @@ public class MyTunesController {
     private void initialize() {
         setupListViews(); //New method1
         setupTableColumns(); //New method2
-        setupEventHandlers(); //New method 3
+        setupEventHandlers(); //New method3
 
         // Selection changes
         playlistList.getSelectionModel().selectedItemProperty().addListener((obs, old, sel) -> {
@@ -410,7 +410,7 @@ public class MyTunesController {
                 durationLbl.setText("Unknown");
             }
         };
-        // Trigger probe when the path changes (typing or choosing)
+        // Trigger probe when the path changes (either when typing or choosing)
         path.textProperty().addListener((obs, ov, nv) -> doProbe.run());
         // If editing and path already present, try to probe at dialog open (in case duration was 0)
         if (editing != null && path.getText() != null && !path.getText().isBlank() && editing.getDurationSeconds() == 0) {
@@ -481,7 +481,7 @@ public class MyTunesController {
         a.showAndWait();
     }
 
-    // ===== Helpers for duration probing and backfilling =====
+    // Helpers for duration probing and backfilling
     private static String formatDuration(int durationSeconds) {
         int s = durationSeconds % 60;
         int m = (durationSeconds / 60) % 60;
@@ -511,7 +511,7 @@ public class MyTunesController {
     }
 
     private void autofillUnknownDurations() {
-        // Iterate over a copy to avoid concurrent modification
+        // Iterate over a copy to avoid mods happening concurrently
         for (Song s : List.copyOf(songs)) {
             if (s.getDurationSeconds() == 0) {
                 File f = new File(s.getFilePath());

@@ -13,15 +13,16 @@ import java.util.List;
 public class PlaylistService {
     private PlaylistDAO playlistDAO = new PlaylistDAO(); //WAS FINAL BEFORE, CHANGE BACK IF NEEDED
 
-    //Added constructors to make testing easier/possible without having to touch the DB
+    //Added constructors to make testing easier/possible (hopefully) without having to touch the DB
     // Can be deleted, not used yet
     public PlaylistService() {
 
         this.playlistDAO = new PlaylistDAO();
     }
 
-    //One for testing if needed (dependency injection) Not used rn, can be deleted
+    //One for testing if needed (dependency injection) Isn't working yet :D
     public PlaylistService (PlaylistDAO mockDAO){
+
         this.playlistDAO = mockDAO;
     }
 
