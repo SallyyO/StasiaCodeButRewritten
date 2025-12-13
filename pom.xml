@@ -15,21 +15,21 @@
     </properties>
 
     <dependencies>
-        <!--Added mockito for testing idk if i'll use it yet lol-->
+        <!--Added mockito for testing-->
         <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
         <version>5.11.0</version>
         <scope>test</scope>
         </dependency>
-        <!--Needed the inline one to be able to test with final classes idk if i'll use it yet lol-->
+        <!--maybe it'll work with this one?-->
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-inline</artifactId>
             <version>5.2.0</version>
             <scope>test</scope>
         </dependency>
-        <!--a mix of Mockito and jUnit in one idk if i'll use it yet lol -->
+        <!--a mix of Mockito and jUnit in one, trying everything at this point -->
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-junit-jupiter</artifactId>
